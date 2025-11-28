@@ -1,1 +1,1269 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>BioTender · AI × Biology</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta
+    name="description"
+    content="BioTender：聚焦 AI × 生物学，从 AlphaFold3、JAM-2、Chai-2 到 AI 科学家与虚拟实验室的深度解读与工具地图。"
+  />
+  <style>
+    :root {
+      --bg: #050816;
+      --bg-subtle: #0b1020;
+      --card: #0f172a;
+      --border-subtle: #1e293b;
+      --text-main: #e5e7eb;
+      --text-muted: #94a3b8;
+      --accent: #22c55e;
+      --accent-soft: rgba(34, 197, 94, 0.12);
+      --accent-strong: #4ade80;
+      --danger: #f97373;
+      --radius-lg: 18px;
+      --radius-full: 999px;
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.55);
+      --shadow-subtle: 0 10px 30px rgba(15, 23, 42, 0.45);
+      --max-width: 1080px;
+    }
 
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+      background: radial-gradient(circle at top, #020617 0, #020617 40%, #020617 100%), #020617;
+      color: var(--text-main);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      width: 100%;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* 顶部导航 */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      backdrop-filter: blur(22px);
+      background: radial-gradient(circle at top left, rgba(34, 197, 94, 0.14), transparent 55%),
+        rgba(15, 23, 42, 0.88);
+      border-bottom: 1px solid rgba(51, 65, 85, 0.7);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 12px;
+      background: radial-gradient(circle at 20% 20%, #bbf7d0, #22c55e 45%, #15803d 75%);
+      box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.45),
+        0 14px 30px rgba(22, 163, 74, 0.55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #022c22;
+      font-size: 18px;
+    }
+
+    .logo-text-main {
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      font-size: 14px;
+      text-transform: uppercase;
+    }
+
+    .logo-text-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 14px;
+    }
+
+    .nav-link {
+      padding: 6px 10px;
+      border-radius: 999px;
+      color: var(--text-muted);
+      border: 1px solid transparent;
+      transition: all 0.18s ease-out;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .nav-link:hover {
+      color: var(--text-main);
+      border-color: rgba(148, 163, 184, 0.4);
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .nav-cta {
+      padding: 7px 14px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #22c55e, #4ade80);
+      color: #052e16;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 12px 30px rgba(34, 197, 94, 0.45);
+      font-size: 13px;
+    }
+
+    .nav-cta span {
+      font-size: 16px;
+    }
+
+    .nav-cta:hover {
+      filter: brightness(1.06);
+      transform: translateY(-1px);
+    }
+
+    .nav-menu-toggle {
+      display: none;
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.9);
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .nav-menu-toggle span {
+      width: 17px;
+      height: 1.6px;
+      background: var(--text-main);
+      position: relative;
+    }
+
+    .nav-menu-toggle span::before,
+    .nav-menu-toggle span::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      width: 17px;
+      height: 1.6px;
+      background: var(--text-main);
+    }
+
+    .nav-menu-toggle span::before {
+      top: -5px;
+    }
+
+    .nav-menu-toggle span::after {
+      top: 5px;
+    }
+
+    /* Hero 区 */
+    .hero {
+      padding: 72px 0 32px;
+    }
+
+    .hero-inner {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: 40px;
+      align-items: center;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 10px 4px 4px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      color: var(--text-muted);
+      font-size: 11px;
+      margin-bottom: 18px;
+    }
+
+    .badge-dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 20% 20%, #bbf7d0, #22c55e 50%, #15803d 80%);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #022c22;
+      box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.5);
+      font-size: 14px;
+    }
+
+    .badge-strong {
+      color: var(--accent-strong);
+      font-weight: 600;
+    }
+
+    .hero-title {
+      font-size: clamp(30px, 4vw, 40px);
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      margin-bottom: 14px;
+    }
+
+    .hero-title span {
+      background: linear-gradient(135deg, #4ade80, #a5b4fc);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-sub {
+      font-size: 14px;
+      color: var(--text-muted);
+      max-width: 520px;
+      margin-bottom: 22px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .btn-primary {
+      padding: 10px 20px;
+      border-radius: var(--radius-full);
+      border: none;
+      cursor: pointer;
+      background: radial-gradient(circle at 0 0, #bbf7d0, #22c55e);
+      box-shadow: 0 16px 40px rgba(34, 197, 94, 0.55);
+      font-size: 14px;
+      font-weight: 600;
+      color: #052e16;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 20px 45px rgba(34, 197, 94, 0.7);
+    }
+
+    .btn-ghost {
+      padding: 9px 16px;
+      border-radius: var(--radius-full);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--text-main);
+      font-size: 13px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: all 0.18s ease-out;
+    }
+
+    .btn-ghost:hover {
+      border-color: rgba(148, 163, 184, 0.9);
+      background: rgba(15, 23, 42, 1);
+    }
+
+    .hero-note {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* Hero 右侧视觉区 */
+    .hero-visual {
+      position: relative;
+      border-radius: 24px;
+      background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.5), transparent 60%),
+        radial-gradient(circle at bottom right, rgba(34, 197, 94, 0.5), transparent 60%),
+        #020617;
+      padding: 18px;
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+      border: 1px solid rgba(30, 64, 175, 0.7);
+    }
+
+    .hero-visual-inner {
+      border-radius: 18px;
+      border: 1px solid rgba(15, 23, 42, 0.9);
+      background: radial-gradient(circle at top, rgba(15, 23, 42, 0.2), rgba(15, 23, 42, 0.9)),
+        rgba(15, 23, 42, 0.95);
+      padding: 18px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-tag-top {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 8px;
+    }
+
+    .hero-visual-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .hero-visual-title span {
+      color: var(--accent-strong);
+    }
+
+    .hero-visual-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .pill {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.55);
+      font-size: 11px;
+      padding: 5px 9px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-muted);
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(14px);
+    }
+
+    .pill-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--accent);
+    }
+
+    .pill-strong {
+      border-color: rgba(34, 197, 94, 0.8);
+      color: var(--accent-strong);
+      background: rgba(21, 128, 61, 0.16);
+    }
+
+    .hero-metric-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .metric {
+      padding: 7px 10px;
+      border-radius: 14px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(30, 64, 175, 0.7);
+      font-size: 11px;
+      display: flex;
+      flex-direction: column;
+      min-width: 120px;
+    }
+
+    .metric-label {
+      font-size: 10px;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 2px;
+    }
+
+    .metric-value {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .metric-good {
+      color: var(--accent-strong);
+    }
+
+    .metric-warn {
+      color: #fbbf24;
+    }
+
+    .hero-visual-footer {
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .hero-visual-footer span {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .spark {
+      width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 20% 20%, #e0f2fe, #38bdf8 50%, #0ea5e9 80%);
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.6);
+    }
+
+    /* 通用区块样式 */
+    section {
+      padding: 18px 0 6px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+
+    .section-title-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .section-eyebrow {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .section-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      max-width: 420px;
+    }
+
+    /* 卡片网格 */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .card {
+      background: radial-gradient(circle at top, rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 1));
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(30, 64, 175, 0.7);
+      padding: 14px 14px 13px;
+      box-shadow: var(--shadow-subtle);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-height: 120px;
+      cursor: default;
+      transition: transform 0.15s ease-out, box-shadow 0.15s ease-out,
+        border-color 0.15s ease-out, background 0.15s ease-out;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.8);
+      border-color: rgba(56, 189, 248, 0.8);
+      background: radial-gradient(circle at top, rgba(15, 23, 42, 0.4), rgba(15, 23, 42, 1));
+    }
+
+    .card-tag {
+      font-size: 11px;
+      color: var(--accent-strong);
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      margin-bottom: 2px;
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .card-meta {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .card-body {
+      font-size: 12px;
+      color: var(--text-muted);
+      flex: 1;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 4px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(51, 65, 85, 0.9);
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .chip-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--accent);
+    }
+
+    .link-inline {
+      font-size: 11px;
+      color: var(--accent-strong);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+    }
+
+    .link-inline::after {
+      content: "↗";
+      font-size: 10px;
+    }
+
+    /* About & 联系 */
+    .about {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: 18px;
+      padding-bottom: 32px;
+    }
+
+    .about-card {
+      border-radius: 18px;
+      background: radial-gradient(circle at top, rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 1));
+      border: 1px solid rgba(30, 64, 175, 0.7);
+      padding: 16px 16px 14px;
+      box-shadow: var(--shadow-subtle);
+    }
+
+    .about-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 20% 20%, #d1fae5, #22c55e 55%, #14532d 85%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #022c22;
+      box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.9);
+    }
+
+    .about-name {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .about-role {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .about-body {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .contact-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 8px;
+      font-size: 12px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+    }
+
+    .contact-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent);
+    }
+
+    .contact-cta {
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    footer {
+      border-top: 1px solid rgba(30, 41, 59, 0.9);
+      background: rgba(15, 23, 42, 0.95);
+      font-size: 11px;
+      color: var(--text-muted);
+      padding: 12px 0 14px;
+      margin-top: auto;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* 响应式 */
+    @media (max-width: 920px) {
+      .hero-inner {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .hero {
+        padding-top: 40px;
+      }
+
+      .hero-visual {
+        order: -1;
+      }
+
+      .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .about {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 720px) {
+      .nav-links {
+        display: none;
+      }
+
+      .nav-menu-toggle {
+        display: inline-flex;
+      }
+
+      .hero {
+        padding-top: 32px;
+      }
+
+      .grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .grid-2 {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .hero-visual {
+        padding: 14px;
+      }
+
+      .hero-visual-inner {
+        padding: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <!-- 顶部导航 -->
+    <header>
+      <div class="container nav">
+        <div class="logo-wrap">
+          <div class="logo-mark">B</div>
+          <div>
+            <div class="logo-text-main">BIOTENDER</div>
+            <div class="logo-text-sub">AI × Biology Insights</div>
+          </div>
+        </div>
+        <nav class="nav-links">
+          <a href="#latest" class="nav-link">最新解读</a>
+          <a href="#collections" class="nav-link">专题</a>
+          <a href="#resources" class="nav-link">资源</a>
+          <a href="#events" class="nav-link">活动</a>
+          <a href="#about" class="nav-link">关于</a>
+          <a href="#contact" class="nav-cta">
+            订阅 & 社群 <span>↗</span>
+          </a>
+        </nav>
+        <button class="nav-menu-toggle" aria-label="Toggle menu">
+          <span></span>
+        </button>
+      </div>
+    </header>
+
+    <main class="container">
+      <!-- Hero 区 -->
+      <section class="hero">
+        <div class="hero-inner">
+          <div>
+            <div class="badge">
+              <div class="badge-dot">AI</div>
+              专注 <span class="badge-strong">AI × 生物学</span> 的深度解读与工具地图
+            </div>
+            <h1 class="hero-title">
+              让 <span>AI</span> 为生物学与药物研发提速
+            </h1>
+            <p class="hero-sub">
+              BioTender 聚焦 AlphaFold3、JAM-2、Chai-2、AI 科学家、虚拟实验室与 AI 生物创业，
+              用可读、可用的案例帮你理解下一代生物基础设施。
+            </p>
+            <div class="hero-actions">
+              <a href="#contact" class="btn-primary">
+                订阅更新 & 加入社群
+                <span>→</span>
+              </a>
+              <a href="#latest" class="btn-ghost">
+                查看最新深度解读
+              </a>
+            </div>
+            <p class="hero-note">
+              面向科研人员、Biotech 从业者与投资人：既讲原理，也讲落地与机会。
+            </p>
+          </div>
+
+          <!-- Hero 右侧：一个“仪表盘式”科研可视化卡片 -->
+          <div class="hero-visual" aria-hidden="true">
+            <div class="hero-visual-inner">
+              <div class="hero-tag-top">Snapshot · AI for Proteins</div>
+              <div class="hero-visual-title">
+                从 <span>结构预测</span> 到 <span>功能设计</span>
+              </div>
+
+              <div class="hero-visual-grid">
+                <div class="pill pill-strong">
+                  <span class="pill-dot"></span>
+                  AlphaFold3 / Boltz / Chai-2 / JAM-2
+                </div>
+                <div class="pill">
+                  <span class="pill-dot"></span>
+                  GPCR / 抗体 / pMHC / 酶设计
+                </div>
+                <div class="pill">
+                  <span class="pill-dot"></span>
+                  AI 科学家 & 虚拟实验室
+                </div>
+                <div class="pill">
+                  <span class="pill-dot"></span>
+                  AI 生物创业 & 融资趋势
+                </div>
+              </div>
+
+              <div class="hero-metric-row">
+                <div class="metric">
+                  <div class="metric-label">Deep Dives</div>
+                  <div class="metric-value metric-good">AF3 · JAM-2 · Chai-2 · DeepSCFold</div>
+                </div>
+                <div class="metric">
+                  <div class="metric-label">Focus</div>
+                  <div class="metric-value">AI × 蛋白质 / 组学 / 医疗</div>
+                </div>
+              </div>
+
+              <div class="hero-visual-footer">
+                <span>
+                  <div class="spark"></div>
+                  实验验证、模型架构、产业落地一站式梳理
+                </span>
+                <span>BioTender · since 2025</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 最新解读 -->
+      <section id="latest">
+        <div class="section-header">
+          <div class="section-title-wrap">
+            <div class="section-eyebrow">Latest</div>
+            <h2 class="section-title">最新深度解读</h2>
+          </div>
+          <p class="section-desc">
+            选 3–4 篇最能代表你风格的长文，用来让新访客快速判断：“值得关注”。
+          </p>
+        </div>
+
+        <div class="grid">
+          <article class="card">
+            <div>
+              <div class="card-tag">AF3 · AlphaFold 时代</div>
+              <h3 class="card-title">
+                AlphaFold 五周年：从结构预测到“AI 生物基础设施”
+              </h3>
+            </div>
+            <p class="card-body">
+              回顾 AF2/AF3 如何改变结构生物学，拆解 DeepMind & Isomorphic Labs 的布局，
+              以及未来 5–10 年真实药物与诊断管线可能出现的路径。
+            </p>
+            <div class="card-footer">
+              <div class="card-meta">
+                <span>AI 蛋白设计</span>
+                <span>·</span>
+                <span>长文解读</span>
+              </div>
+              <a class="link-inline" href="#" target="_blank">
+                阅读公号原文
+              </a>
+            </div>
+          </article>
+
+          <article class="card">
+            <div>
+              <div class="card-tag">JAM-2 vs Chai-2</div>
+              <h3 class="card-title">
+                AI 抗体正面交锋：JAM-2 碾压还是 Chai-2 反击？
+              </h3>
+            </div>
+            <p class="card-body">
+              系统对比两大 AI 抗体平台的设计范式、实验命中率、developability 评估与产业路线，
+              讨论“从技术报告到临床级资产”的真正难点。
+            </p>
+            <div class="card-footer">
+              <div class="card-meta">
+                <span>AI 抗体设计</span>
+                <span>·</span>
+                <span>技术 + 产业</span>
+              </div>
+              <a class="link-inline" href="#" target="_blank">
+                阅读公号原文
+              </a>
+            </div>
+          </article>
+
+          <article class="card">
+            <div>
+              <div class="card-tag">AI Scientist</div>
+              <h3 class="card-title">
+                从 Genesis Mission 到 OmniScientist：AI 科学家的现实版本
+              </h3>
+            </div>
+            <p class="card-body">
+              拆解美国“创世任务”、AI 科学家框架与 ABM/虚拟实验室的结合方式，
+              讨论未来十年基础科研、产业转化与国家竞争力的重构。
+            </p>
+            <div class="card-footer">
+              <div class="card-meta">
+                <span>AI 科学基础设施</span>
+                <span>·</span>
+                <span>政策 + 技术</span>
+              </div>
+              <a class="link-inline" href="#" target="_blank">
+                阅读公号原文
+              </a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 专题合集 -->
+      <section id="collections">
+        <div class="section-header">
+          <div class="section-title-wrap">
+            <div class="section-eyebrow">Collections</div>
+            <h2 class="section-title">专题 · 把散点变成地图</h2>
+          </div>
+          <p class="section-desc">
+            按主题把 AF3、JAM-2、虚拟实验室、AI 生物创业等内容打包，方便系统学习与引用。
+          </p>
+        </div>
+
+        <div class="grid grid-2">
+          <article class="card">
+            <div class="card-tag">AI Proteins</div>
+            <h3 class="card-title">
+              AI 蛋白与抗体设计前沿
+            </h3>
+            <p class="card-body">
+              系统整理 AlphaFold3、Boltz 系列、Chai-2、JAM-2、DeepSCFold 等模型，
+              从结构预测、逆折叠到 de novo 设计与 docking，配合真实实验数据与案例。
+            </p>
+            <div class="card-footer">
+              <div class="chip">
+                <span class="chip-dot"></span>
+                AlphaFold3 / Boltz / Chai-2 / JAM-2
+              </div>
+              <span class="link-inline">进入专题</span>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-tag">AI Lab</div>
+            <h3 class="card-title">
+              AI 科学家、虚拟实验室与新科研范式
+            </h3>
+            <p class="card-body">
+              围绕 Genesis Mission、AI Scientist、OmniScientist、虚拟细胞与虚拟人体，
+              讨论“从模型到实验流水线”的整合，以及对科研文化与评价体系的冲击。
+            </p>
+            <div class="card-footer">
+              <div class="chip">
+                <span class="chip-dot"></span>
+                AI Scientist / ABM / Virtual Lab
+              </div>
+              <span class="link-inline">进入专题</span>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-tag">AI Drug</div>
+            <h3 class="card-title">
+              AI 药物与临床前评估的新路径
+            </h3>
+            <p class="card-body">
+              汇总 AI Drug Discovery、虚拟筛选、毒性预测平台、DeepRETStroke、PanDerm 等案例，
+              结合组学与影像，让“准临床级”预测真正对接药物管线。
+            </p>
+            <div class="card-footer">
+              <div class="chip">
+                <span class="chip-dot"></span>
+                生成式分子 / ADMET / 多模态
+              </div>
+              <span class="link-inline">进入专题</span>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-tag">Venture</div>
+            <h3 class="card-title">
+              AI 生物创业与融资趋势（2025）
+            </h3>
+            <p class="card-body">
+              整合 WSJ、Reuters、EY 等多方报告与一线案例，
+              从资本逻辑、AI 能力标准、数据壁垒、人效模型出发，梳理“AI 生物创业”生存法则。
+            </p>
+            <div class="card-footer">
+              <div class="chip">
+                <span class="chip-dot"></span>
+                白皮书 · 持续更新
+              </div>
+              <span class="link-inline">预告 & 订阅</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 资源区 -->
+      <section id="resources">
+        <div class="section-header">
+          <div class="section-title-wrap">
+            <div class="section-eyebrow">Resources</div>
+            <h2 class="section-title">资源与白皮书</h2>
+          </div>
+          <p class="section-desc">
+            把你整理的论文索引、工具清单和白皮书变成可引用、可下载的“知识资产”。
+          </p>
+        </div>
+
+        <div class="grid grid-2">
+          <article class="card">
+            <div class="card-tag">Index</div>
+            <h3 class="card-title">
+              蛋白大模型与 AI 设计工具索引
+            </h3>
+            <p class="card-body">
+              汇总 AF3、Boltz、BindCraft、RFdiffusion、Dayhoff Atlas、PoET-2 等模型，
+              按任务（预测 / 设计 / 打分）、开放程度与实验验证强度进行标注，方便快速选型。
+            </p>
+            <div class="card-footer">
+              <div class="card-meta">
+                <span>持续更新</span> · <span>科研 & 产品同用</span>
+              </div>
+              <span class="link-inline">在线浏览 / 下载 PDF</span>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-tag">FM4LS · ICLR · ICML</div>
+            <h3 class="card-title">
+              AI × Life Sciences 会议论文导航
+            </h3>
+            <p class="card-body">
+              基于 ICML FM4LS / ICLR / ICML 等 Workshop，按方向（蛋白、药物、单细胞、虚拟细胞等）
+              整理论文列表与速读点评。
+            </p>
+            <div class="card-footer">
+              <div class="card-meta">
+                <span>论文整理</span> · <span>附链接与分类标签</span>
+              </div>
+              <span class="link-inline">查看导航</span>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-tag">Whitepaper</div>
+            <h3 class="card-title">
+              AI 生物创业融资趋势（2025 白皮书）
+            </h3>
+            <p class="card-body">
+              从 VC 视角拆解 AI 生物公司的“合格叙事”：算力与模型、数据与实验平台、资产与管线、
+              人效与组织，并结合典型融资案例做对比分析。
+            </p>
+            <div class="card-footer">
+              <div class="card-meta">
+                <span>草案筹备中</span>
+              </div>
+              <span class="link-inline">填写邮箱 / 微信获取</span>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-tag">Notes</div>
+            <h3 class="card-title">
+              组学技术 & AI 结合应用手册
+            </h3>
+            <p class="card-body">
+              面向真实业务场景，梳理单细胞、转录组、表观遗传、蛋白组等组学技术，
+              以及如何与 AI 模型结合形成可售的解决方案。
+            </p>
+            <div class="card-footer">
+              <div class="card-meta">
+                <span>组学从业者视角</span>
+              </div>
+              <span class="link-inline">预览 & 征求反馈</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 活动与社群 -->
+      <section id="events">
+        <div class="section-header">
+          <div class="section-title-wrap">
+            <div class="section-eyebrow">Events</div>
+            <h2 class="section-title">活动 · 直播 · 社群</h2>
+          </div>
+          <p class="section-desc">
+            把线上讨论会、直播课与核心交流群统一在一个入口，保证“有事来这里就行”。
+          </p>
+        </div>
+
+        <div class="card" style="margin-bottom: 10px;">
+          <div class="card-tag">Upcoming</div>
+          <h3 class="card-title">
+            「AI 蛋白设计与虚拟实验室」线上分享（示例）
+          </h3>
+          <div class="card-meta" style="margin-top: 4px;">
+            <span>时间：待定</span>
+            <span>·</span>
+            <span>形式：Zoom / 腾讯会议</span>
+          </div>
+          <p class="card-body">
+            从 AF3 / Boltz / Chai-2 / JAM-2 到 AI Scientist / OmniScientist，讲清楚“如何把模型接到实验与业务上”，
+            适合科研人员、Biotech 创业者、投资人一起听。
+          </p>
+          <div class="card-footer">
+            <div class="chip">
+              <span class="chip-dot"></span>
+              想参加？点下方联系或扫码加群
+            </div>
+            <span class="link-inline">获取会议链接</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-tag">Community</div>
+          <h3 class="card-title">
+            BioTender 社群 · AI × Bio 讨论空间
+          </h3>
+          <p class="card-body">
+            不定期分享最新论文 / 工具 / 投融资信息，偶尔约线上小范围讨论，
+            欢迎科研、产业、投资各路朋友加入，一起完善“AI 生物地图”。
+          </p>
+          <div class="card-footer">
+            <div class="card-meta">
+              <span>微信 / 企业微信</span>
+              <span>·</span>
+              <span>需备注来意</span>
+            </div>
+            <span class="link-inline">查看加群方式</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 关于 & 联系 -->
+      <section id="about">
+        <div class="section-header">
+          <div class="section-title-wrap">
+            <div class="section-eyebrow">About</div>
+            <h2 class="section-title">关于 BioTender</h2>
+          </div>
+          <p class="section-desc">
+            简单讲清楚：你是谁，在做什么，为什么你值得被“关注 / 合作 / 请来讲课或做项目”。
+          </p>
+        </div>
+
+        <div class="about">
+          <div class="about-card">
+            <div class="about-header">
+              <div class="avatar">雨</div>
+              <div>
+                <div class="about-name">张小雨 · Junior Yu</div>
+                <div class="about-role">组学从业者 & BioTender 主理人</div>
+              </div>
+            </div>
+            <div class="about-body">
+              <p>
+                背景横跨植物科研与组学技术服务，长期关注 AI 在蛋白设计、组学分析、
+                医疗影像与虚拟实验室中的应用。
+              </p>
+              <p style="margin-top: 6px;">
+                通过 BioTender，我希望把「AI 生物」从散乱的新闻与单篇论文，
+                变成对科研、产业和创业都有用的「结构化地图」——帮助你少走弯路，
+                快速找到真正值得投入时间与资源的方向。
+              </p>
+            </div>
+          </div>
+
+          <div class="about-card" id="contact">
+            <div class="about-name" style="margin-bottom: 6px;">联系与合作</div>
+            <div class="about-body">
+              <p>
+                如果你：
+              </p>
+              <ul style="margin-top: 4px; padding-left: 16px;">
+                <li>希望系统了解某个 AI × Bio 方向，做一次内部分享 / 培训；</li>
+                <li>在规划 AI 相关的组学 / 实验方案，想听听一线视角；</li>
+                <li>在做 AI 生物创业或投资布局，想一起梳理机会与风险；</li>
+              </ul>
+              <p style="margin-top: 6px;">
+                欢迎直接联系我，我们可以先线上聊一聊。
+              </p>
+
+              <div class="contact-list">
+                <div class="contact-item">
+                  <span class="contact-dot"></span>
+                  <span>邮箱：<a href="mailto:zhangxy0107@126.com">zhangxy0107@126.com</a></span>
+                </div>
+                <div class="contact-item">
+                  <span class="contact-dot"></span>
+                  <span>微信 / 社群：可通过邮箱或公号私信获取二维码</span>
+                </div>
+              </div>
+
+              <div class="contact-cta">
+                <a href="mailto:zhangxy0107@126.com" class="btn-primary" style="padding: 8px 18px; font-size: 13px;">
+                  发封邮件聊聊
+                </a>
+                <div class="chip">
+                  <span class="chip-dot"></span>
+                  也可以在公号搜索「BioTender」找到我
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container footer-inner">
+        <span>© <span id="year"></span> BioTender · AI × Biology</span>
+        <span>本站仍在迭代中，欢迎提出任何建议。</span>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // 设置年份
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // 简单移动端菜单展开（如果你以后想加侧边菜单，可以在这里扩展）
+    const toggle = document.querySelector(".nav-menu-toggle");
+    const navLinks = document.querySelector(".nav-links");
+
+    toggle.addEventListener("click", () => {
+      const isOpen = navLinks.style.display === "flex";
+      navLinks.style.display = isOpen ? "none" : "flex";
+      navLinks.style.position = "absolute";
+      navLinks.style.top = "64px";
+      navLinks.style.right = "20px";
+      navLinks.style.flexDirection = "column";
+      navLinks.style.padding = "10px";
+      navLinks.style.borderRadius = "18px";
+      navLinks.style.background = "rgba(15, 23, 42, 0.98)";
+      navLinks.style.border = "1px solid rgba(51, 65, 85, 0.9)";
+      navLinks.style.gap = "8px";
+    });
+  </script>
+</body>
+</html>
